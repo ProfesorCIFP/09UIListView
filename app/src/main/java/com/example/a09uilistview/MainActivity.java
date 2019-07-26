@@ -9,6 +9,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
 
     private ListView lvDiasSemana = null;
@@ -22,9 +24,14 @@ public class MainActivity extends AppCompatActivity {
         lvDiasSemana = findViewById(R.id.lvDiasSemana);
         txSeleccion = findViewById(R.id.txSeleccion);
 
-        ArrayAdapter<CharSequence> adaptador = ArrayAdapter.createFromResource(this,
-                                R.array.diasSemana,
-                                R.layout.support_simple_spinner_dropdown_item);
+        ArrayList<String> diasSemana = creaDiasSemana();
+//        ArrayAdapter<CharSequence> adaptador = ArrayAdapter.createFromResource(this,
+//                                R.array.diasSemana,
+//                                R.layout.support_simple_spinner_dropdown_item);
+        ArrayAdapter adaptador = new ArrayAdapter(getApplicationContext(),
+                                    R.layout.support_simple_spinner_dropdown_item,
+                                    diasSemana);
+
 
         lvDiasSemana.setAdapter(adaptador);
 
@@ -37,5 +44,20 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private ArrayList<String> creaDiasSemana() {
+        ArrayList<String> diasSemana = new ArrayList<>();
+
+        diasSemana.add("Seleccione ...");
+        diasSemana.add("Lunes");
+        diasSemana.add("Martes");
+        diasSemana.add("Miércoles");
+        diasSemana.add("Jueves");
+        diasSemana.add("Viernes");
+        diasSemana.add("Sabado");
+        diasSemana.add("Domingo");
+
+        return diasSemana;
     }
 }

@@ -37,8 +37,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int posicion, long l) {
 
-                String opcionSeleccionada = ((Titular) adapterView.getItemAtPosition(posicion)).getTitulo();
-                txSeleccion.setText("Selección: " + opcionSeleccionada);
+                if (posicion != 0) {
+                    String opcionSeleccionada = ((Titular) adapterView.getItemAtPosition(posicion)).getTitulo();
+                    txSeleccion.setText("Selección: " + opcionSeleccionada);
+                }
             }
         });
 

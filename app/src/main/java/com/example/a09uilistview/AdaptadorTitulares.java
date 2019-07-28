@@ -20,15 +20,42 @@ public class AdaptadorTitulares extends ArrayAdapter<Titular> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater inflater = LayoutInflater.from(getContext());
-        View item = inflater.inflate(R.layout.listitem_titular, null);
 
-        TextView tvTitulo = item.findViewById(R.id.tvTitulo);
-        tvTitulo.setText(titulares.get(position).getTitulo());
+        View item = convertView;
+        ViewHolder holder;
 
-        TextView tvSubtitulo = item.findViewById(R.id.tvSubtitulo);
-        tvSubtitulo.setText(titulares.get(position).getSubtitulo());
+        // MEJORAS:
+        // MEJORA 1:
+        // Evitamos inflar el Layout cada vez que se muestra un nuevo elemento.
+        // En convertView recibimos algún layout que pueda ser reutilizado.
+
+        // MEJORA 2:
+        // Los findViewById son muy costosas y se están haciendo en todas las llamadas, para
+        // mostrar cada uno de los elementos del ListView.
+        // Vamos a guardar la referencia a los controles usando el patrón ViewHolder.
+
+        if (item == null) {
+            LayoutInflater inflater = LayoutInflater.from(getContext());
+            item = inflater.inflate(R.layout.listitem_titular, null);
+
+            holder = new ViewHolder();
+            holder.titulo = item.findViewById(R.id.tvTitulo);
+            holder.subtitulo = item.findViewById(R.id.tvSubtitulo);
+
+            item.setTag(holder);
+        }
+        else {
+            holder = (ViewHolder) item.getTag();
+        }
+
+        holder.titulo.setText(titulares.get(position).getTitulo());
+        holder.subtitulo.setText(titulares.get(position).getSubtitulo());
 
         return item;
+    }
+
+    static class ViewHolder {
+        TextView titulo;
+        TextView subtitulo;
     }
 }

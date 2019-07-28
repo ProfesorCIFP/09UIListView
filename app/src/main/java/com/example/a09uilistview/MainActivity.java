@@ -41,6 +41,11 @@ public class MainActivity extends AppCompatActivity {
                 txSeleccion.setText("Selección: " + opcionSeleccionada);
             }
         });
+
+        View cabecera = getLayoutInflater().inflate(R.layout.listview_cabecera, null);
+        lvTitulares.addHeaderView(cabecera);
+
+        // También podemos añadir un Footer. Tarea...
     }
 
 

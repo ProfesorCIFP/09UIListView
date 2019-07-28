@@ -3,6 +3,7 @@ package com.example.a09uilistview;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -10,10 +11,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ListView lvDiasSemana = null;
+    private ListView lvTitulares = null;
     private TextView txSeleccion = null;
 
     @Override
@@ -21,41 +23,34 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        lvDiasSemana = findViewById(R.id.lvDiasSemana);
         txSeleccion = findViewById(R.id.txSeleccion);
+        lvTitulares = findViewById(R.id.lvTitulares);
 
-        ArrayList<String> diasSemana = creaDiasSemana();
-//        ArrayAdapter<CharSequence> adaptador = ArrayAdapter.createFromResource(this,
-//                                R.array.diasSemana,
-//                                R.layout.support_simple_spinner_dropdown_item);
-        ArrayAdapter adaptador = new ArrayAdapter(getApplicationContext(),
-                                    R.layout.support_simple_spinner_dropdown_item,
-                                    diasSemana);
+        ArrayList<Titular> titulares = creaTitulares();
+
+        AdaptadorTitulares adaptadorTitulares = new AdaptadorTitulares(getApplicationContext(), titulares);
 
 
-        lvDiasSemana.setAdapter(adaptador);
+        lvTitulares.setAdapter(adaptadorTitulares);
 
-        lvDiasSemana.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        lvTitulares.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int posicion, long l) {
-                txSeleccion.setText("Selección: " + adapterView.getItemAtPosition(posicion));
 
+                String opcionSeleccionada = ((Titular) adapterView.getItemAtPosition(posicion)).getTitulo();
+                txSeleccion.setText("Selección: " + opcionSeleccionada);
             }
         });
-
     }
 
-    private ArrayList<String> creaDiasSemana() {
-        ArrayList<String> diasSemana = new ArrayList<>();
 
-        diasSemana.add("Lunes");
-        diasSemana.add("Martes");
-        diasSemana.add("Miércoles");
-        diasSemana.add("Jueves");
-        diasSemana.add("Viernes");
-        diasSemana.add("Sabado");
-        diasSemana.add("Domingo");
+    private ArrayList<Titular> creaTitulares() {
+        ArrayList<Titular> titulares = new ArrayList<>();
 
-        return diasSemana;
+        for (int i = 0; i < 50; i++)
+            titulares.add(new Titular("Titulo " + i, "Subtitulo con más texto " + i));
+
+        return titulares;
     }
+
 }
